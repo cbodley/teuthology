@@ -48,15 +48,15 @@ class DaemonState(object):
         if self.use_init:
             _, role = role.split('.')
             if (role == 'mon') or (role == 'mds') or (role == 'rgw'):
-                self.id = remote.shortname
+                self.id_ = remote.shortname
             self._set_commands()
         self.log = command_kwargs.get('logger', log)
         self.proc = None
 
     def _set_commands(self):
-        self.start_cmd = get_systemd_cmd('start', self.role, self.id)
-        self.stop_cmd = get_systemd_cmd('stop', self.role, self.id)
-        self.restart_cmd = get_systemd_cmd('restart', self.role, self.id)
+        self.start_cmd = get_systemd_cmd('start', self.role, self.id_)
+        self.stop_cmd = get_systemd_cmd('stop', self.role, self.id_)
+        self.restart_cmd = get_systemd_cmd('restart', self.role, self.id_)
 
     @property
     def pid(self):
@@ -66,7 +66,7 @@ class DaemonState(object):
         if not self.use_init:
             raise NotImplementedError
         proc_name = 'ceph-%s' % self.role
-        proc_regex = '"%s.*--id %s"' % (proc_name, self.id)
+        proc_regex = '"%s.*--id %s"' % (proc_name, self.id_)
         args = ['ps', '-ef',
                 run.Raw('|'),
                 'grep',
