@@ -54,9 +54,10 @@ class DaemonState(object):
         self.proc = None
 
     def _set_commands(self):
-        self.start_cmd = get_systemd_cmd('start', self.role, self.id_)
-        self.stop_cmd = get_systemd_cmd('stop', self.role, self.id_)
-        self.restart_cmd = get_systemd_cmd('restart', self.role, self.id_)
+        type_ = self.role.split('.')[-1]
+        self.start_cmd = get_systemd_cmd('start', type_, self.id_)
+        self.stop_cmd = get_systemd_cmd('stop', type_, self.id_)
+        self.restart_cmd = get_systemd_cmd('restart', type_, self.id_)
 
     @property
     def pid(self):
