@@ -66,7 +66,7 @@ class DaemonState(object):
         """
         if not self.use_init:
             raise NotImplementedError
-        proc_name = 'ceph-%s' % self.role
+        proc_name = 'ceph-%s' % self.type_
         proc_regex = '"%s.*--id %s"' % (proc_name, self.id_)
         args = ['ps', '-ef',
                 run.Raw('|'),
